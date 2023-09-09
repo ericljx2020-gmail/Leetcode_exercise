@@ -7,7 +7,7 @@ public:
         priority_queue<VI, vector<VI>, greater<VI>> pq;
 
         for (int i = 0; i < m; i++) pq.push({nums1[0] + nums2[i], 0, i});
-
+        //多路归并，先把a[0]和b[0-n]都放进堆，每一次从堆里取出的从a[0]编程a[1]如此进行
         vector<VI> res;
         while (k -- && pq.size()){
             VI t = pq.top();
