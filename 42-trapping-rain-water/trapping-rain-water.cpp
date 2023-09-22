@@ -22,9 +22,6 @@ public:
             q[++tt] = i;
         }
 
-        for (int i = 0; i < n; i++) cout << asc[i] << ' ';
-        puts("");
-        for (int i = 0; i < n; i++) cout << dec[i] << " ";
         int res = 0;
         for (int i = 0; i < n; i++){
             int r = asc[i];
@@ -33,7 +30,6 @@ public:
                 h[j] = h[i];
             }
         }
-        cout << res << " ";
         for (int i = n-1; i >= 0; i--){
             int l = dec[i];
             for (int j = i-1; j > l; j--){
