@@ -19,7 +19,7 @@ public:
             if (a.second > res && a.first != len){
                 res = a.second;
             }
-            cout << a.first << " " << a.second << "\n";
+            // cout << a.first << " " << a.second << "\n";
         }
         return n-res;
     }
