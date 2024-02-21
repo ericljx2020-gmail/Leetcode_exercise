@@ -1,21 +1,16 @@
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
-        int n = matrix.size(), m = matrix[0].size();
-        unordered_map<int, unordered_map<int,bool>> hash;
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < m; j++){
-                if (!hash[i][j] && !hash[j][i]) {
-                    swap(matrix[i][j], matrix[j][i]);
-                    hash[i][j] = hash[j][i] = 1;
-                }
+        int n = matrix.size();
+        for (int i = 0; i < n/2; i++){
+            for (int j = 0; j < n; j++){
+                swap(matrix[i][j], matrix[n-1-i][j]);
             }
         }
         for (int i = 0; i < n; i++){
-            for (int j = 0; j < m/2; j++){
-                swap(matrix[i][j], matrix[i][m-j-1]);
+            for (int j = i; j < n; j++){
+                swap(matrix[i][j], matrix[j][i]);
             }
         }
-        return;
     }
 };
