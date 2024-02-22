@@ -16,9 +16,6 @@ public:
             q[++tt] = i;
             crsum += nums[i];
             if (crsum >= target) return true;
-            if (i >= k-1 && crsum >= target){
-                res = min(res, crsum);
-            }
         }
         return false;
     }
