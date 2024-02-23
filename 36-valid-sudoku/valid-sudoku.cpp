@@ -10,7 +10,6 @@ public:
                 int cur = board[i][j] - '0';
                 int oneD = i / 3 * 3 + j / 3;
                 if (g[oneD][cur] || rol[i][cur] || col[j][cur]) {
-                    cout << i << " " << j << " " << oneD << endl;
                     return false; 
                 }
                 g[oneD][cur] = rol[i][cur] = col[j][cur] = 1;
