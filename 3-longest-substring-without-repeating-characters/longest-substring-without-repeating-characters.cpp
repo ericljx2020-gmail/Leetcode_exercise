@@ -36,10 +36,10 @@ public:
             // puts("");
             if (check(mid, s)) {
                 l = mid;
-                cout << mid << " " << "True" << "\n";
+                // cout << mid << " " << "True" << "\n";
             }else{
                 r = mid-1;
-                cout << mid << " " << "False" << "\n";
+                // cout << mid << " " << "False" << "\n";
             }
         }
 
