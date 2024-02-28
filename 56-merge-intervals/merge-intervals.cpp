@@ -1,24 +1,20 @@
 class Solution {
 public:
-
-    static bool cmp(vector<int>& a, vector<int>& b){
-        return a[0] < b[0];
-    }
-
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        int n = intervals.size();
-        sort(intervals.begin(), intervals.end(), cmp);
         vector<vector<int>> res;
+        int n = intervals.size();
+        sort(intervals.begin(), intervals.end());
+        int tt = -1, hh = -1;
         for (int i = 0; i < n; i++){
-            int a = intervals[i][0], b = intervals[i][1];
-            int j = i+1;
-            while (j < n && intervals[j][0] <= b){
-                b = max(b, intervals[j][1]);
-                j++;
+            if (intervals[i][0] <= tt){
+                tt = max(tt, intervals[i][1]);
+            }else{
+                if (hh != -1)res.push_back({hh,tt});
+                hh = intervals[i][0];
+                tt = intervals[i][1];
             }
-            res.push_back({a,b});
-            i = j-1;
         }
+        res.push_back({hh,tt});
         return res;
     }
 };
