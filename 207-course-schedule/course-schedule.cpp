@@ -6,8 +6,8 @@ public:
 
         for (auto &e : edges){
             int a = e[0], b = e[1];
-            g[a].push_back(b);
-            d[b]++;
+            g[b].push_back(a);
+            d[a]++;
         }   
         int q[100005];
         int tt = -1;
