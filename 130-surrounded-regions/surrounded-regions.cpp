@@ -1,52 +1,44 @@
 class Solution {
 public:
-    vector<vector<char>> b;
-    int n,m;
-    unordered_map<int, unordered_map<int,int>> st;
     int dx[4] = {0,0,-1,1};
     int dy[4] = {1,-1,0,0};
-    void bfs(int i, int j){
-        st[i][j] = 1;
-        queue<pair<int,int>> q;
-        q.push({i,j});
-
+    unordered_map<int, unordered_map<int, bool>> vis;
+    void bfs(int x, int y, bool flip, vector<vector<char>>& board, int n, int m){
+        queue<pair<int, int>> q;
+        q.push({x,y});
+        vis[x][y] = 1;
         while (q.size()){
-            pair<int,int> t = q.front();
+            auto t = q.front();
             q.pop();
-
+            if (flip) board[t.first][t.second] = 'X';
             for (int i = 0; i < 4; i++){
-                int nx = t.first+dx[i], ny = t.second+dy[i];
-                if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
-                if (b[nx][ny] == 'X') continue;
-                if (st[nx][ny]) continue;
-
-                q.push({nx,ny});
-                st[nx][ny] = 1;
+                int a = t.first + dx[i], b = t.second + dy[i];
+                if (a >= n || a < 0 || b >= m || b < 0) continue;
+                if (vis[a][b]) continue;
+                if (board[a][b] == 'X') continue;
+                q.push({a,b});
+                vis[a][b] = 1;
             }
         }
-    }
+    }    
+
     void solve(vector<vector<char>>& board) {
-        b = board;
-        if (b.size() == 0) return;
-        n = b.size(), m = b[0].size();
+        int n = board.size(), m = board[0].size();
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                if (i == 0 || j == 0 || i == n-1 || j == m-1){
-                    if (b[i][j] == 'O'){
-                        bfs(i,j);
-                    }
+                if ((i == 0 || i == n-1 || j == 0 || j == m-1) && board[i][j] == 'O'){
+                    bfs(i,j,0, board, n,m);
                 }
             }
         }
-
+        
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                if (b[i][j] == 'O' && !st[i][j]){
-                    b[i][j] = 'X';
+                if (!vis[i][j]){
+                    bfs(i,j,1,board,n,m);
                 }
             }
         }
-        board = b;
         return;
     }
 };
