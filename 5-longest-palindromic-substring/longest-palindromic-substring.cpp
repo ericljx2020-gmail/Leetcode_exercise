@@ -1,36 +1,31 @@
 class Solution {
 public:
-    static const int N = 1e3+5;
     string longestPalindrome(string s) {
-        int f[N][N];
-        memset(f, 0, sizeof f);
+        if (s == "") return "";
         int n = s.size();
-        for (int i = 0; i < n; i++) f[i][i] = 1;        //长度为1的一定是palindrome
+        vector<vector<int>>f(n, vector<int>(n));
+        f[n-1][n-1] = 1;
         for (int i = 0; i < n-1; i++) {
-            if (s[i] == s[i+1]){
-                f[i][i+1] = 1;    //长度为2的一定是palindrome
-            }
+            f[i][i] = 1;
+            if (s[i] == s[i+1]) f[i][i+1] = 1;
         }
-
-        for (int l = 3; l <= n; l++){
+        for (int k = 2; k <= n; k++) {
             for (int i = 0; i < n; i++){
-                int j = i + l - 1;
-                if (j >= s.size()) break;
-                if (s[i] == s[j] && f[i+1][j-1]) f[i][j] = 1;
+                int j = i + k - 1;
+                if (j >= n) break;
+                if (s[i] == s[j] && f[i+1][j-1]) f[i][j] = 1; 
             }
         }
-        int maxlen = 0;
-        string res = "";
+        int res = 0;
+        int x = 0, y = 0;
         for (int i = 0; i < n; i++){
-            for (int j = i; j < n; j++){
-                if (f[i][j]){
-                    if (j-i+1 > maxlen){
-                        maxlen = j-i+1;
-                        res = s.substr(i, maxlen);
-                    }
+            for (int j = 0; j < n; j++){
+                if (f[i][j] && j-i+1 > res){
+                    res = j-i+1;
+                    x = i, y = j;
                 }
             }
         }
-        return res;
+        return s.substr(x, res);
     }
 };
