@@ -3,24 +3,26 @@ public:
     vector<vector<int>> res;
     vector<int> cur;
     unordered_map<int, bool> hash;
-    void dfs(int u, vector<int>& nums){
-        if (u == nums.size()){
+
+    void dfs(int c, int n, vector<int>& nums){
+        if (c >= n){
             res.push_back(cur);
-            return;
+            return ;
         }
 
-        for (int i = 0; i < nums.size(); i++){
-            if (hash[nums[i]]) continue;
-            hash[nums[i]] = 1;
-            cur.push_back(nums[i]);
-            dfs(u+1, nums);
-            hash[nums[i]] = 0;
+        for (int i = 0; i < n; i++){
+            int a = nums[i];
+            if (hash[a]) continue;
+            hash[a] = 1;
+            cur.push_back(a);
+            dfs(c+1,n,nums);
             cur.pop_back();
+            hash[a] = 0;
         }
     }
-
     vector<vector<int>> permute(vector<int>& nums) {
-        dfs(0,nums);
+        int n = nums.size();
+        dfs(0, n, nums);
         return res;
     }
 };
