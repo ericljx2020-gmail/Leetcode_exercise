@@ -2,8 +2,7 @@ class Solution {
 public:
     vector<vector<int>> res;
     vector<int> cur;
-    int sum = 0;
-    void dfs(int u, vector<int>& candidates, int target) {
+    void dfs(int sum, int p, int n, int target, vector<int>& candidates) {
         if (sum > target){
             return;
         }
@@ -12,19 +11,17 @@ public:
             return;
         }
 
-        for (int i = u; i < candidates.size(); i++) {
-            sum += candidates[i];
+        for (int i = p; i < n; i++){
             cur.push_back(candidates[i]);
-            dfs(i, candidates, target);
+            sum += candidates[i];
+            dfs(sum, i, n, target, candidates);
             sum -= candidates[i];
             cur.pop_back();
         }
     }
-
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-       int n = candidates.size();
-       sort(candidates.begin(), candidates.end());
-       dfs(0, candidates, target);
-       return res; 
+        int n = candidates.size();
+        dfs(0, 0, n, target, candidates);
+        return res;
     }
 };
