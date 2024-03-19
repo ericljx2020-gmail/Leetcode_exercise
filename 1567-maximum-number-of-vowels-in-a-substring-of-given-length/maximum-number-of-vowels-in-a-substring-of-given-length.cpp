@@ -1,25 +1,28 @@
 class Solution {
 public:
     int maxVowels(string s, int k) {
+        unordered_map<char, bool> vow;
         int n = s.size();
+        int q[100005];
         int tt = -1, hh = 0;
-        int q[1000005];
-        int cur = 0;
+        vow['a'] = 1;
+        vow['e'] = 1;
+        vow['i'] = 1;
+        vow['o'] = 1;
+        vow['u'] = 1;
+        
+        int cnt = 0;
         int res = 0;
         for (int i = 0; i < n; i++){
-            if (hh <= i-k){
-                if (s[q[hh]] == 'a' || s[q[hh]] == 'e' || s[q[hh]] == 'i' || s[q[hh]] == 'o' || s[q[hh]] == 'u'){
-                    cur --;
-                }
+            if (hh <= tt &&  q[hh] < i-k+1) {
+                if (vow[s[q[hh]]]) cnt--;
                 hh++;
             }
-
+            if (vow[s[i]]) cnt++;
             q[++tt] = i;
-            if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u') {
-                cur++;
-            }
-            res = max(cur, res);
+            res = max(res, cnt);
         }
+
         return res;
     }
 };
