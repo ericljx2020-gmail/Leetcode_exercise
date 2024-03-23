@@ -1,17 +1,14 @@
 class Trie {
 public:
-
     struct Node{
-        Node * son[26];
         bool is_end;
+        Node* son[26];
 
         Node(){
             is_end = false;
-            for (int i = 0; i < 26; i++){
-                son[i] = NULL;
-            }
+            for (int i = 0; i < 26; i++) son[i] = NULL;
         }
-    }* root;
+    }*root;
 
     Trie() {
         root = new Node();
@@ -19,10 +16,10 @@ public:
     
     void insert(string word) {
         auto p = root;
-        for (auto c : word){
-            int s = c - 'a';
-            if (!p -> son[s]) p -> son[s] = new Node();
-            p = p -> son[s];
+        for (auto c: word){
+            int u = c - 'a';
+            if (!p -> son[u]) p -> son[u] = new Node();
+            p = p -> son[u];
         }
         p -> is_end = true;
     }
@@ -30,9 +27,9 @@ public:
     bool search(string word) {
         auto p = root;
         for (auto c : word){
-            int s = c - 'a';
-            if (!p -> son[s]) return false;
-            p = p -> son[s];
+            int u = c - 'a';
+            if (!p->son[u]) return false;
+            p = p -> son[u];
         }
         return p -> is_end;
     }
@@ -40,9 +37,9 @@ public:
     bool startsWith(string prefix) {
         auto p = root;
         for (auto c : prefix){
-            int s = c - 'a';
-            if (!p -> son[s]) return false;
-            p = p -> son[s];
+            int u = c - 'a';
+            if (!p -> son[u]) return false;
+            p = p -> son[u];
         }
         return true;
     }
