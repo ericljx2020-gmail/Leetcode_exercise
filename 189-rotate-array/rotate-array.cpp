@@ -2,13 +2,16 @@ class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
         int n = nums.size();
-        k = n - k % n;
-        vector<int>ans;
-        for (int i = k; i < n+k; i++){
-            cout << i % n << endl;
-            ans.push_back(nums[i % n]);
+        unordered_map<int,int> hash;
+        for (int i = 0; i < n; i++) {
+            hash[i] = (i+k) % n;
         }
-        nums = ans;
-        return ;
+        vector<int> res(n,0);
+        for(int i = 0; i < n; i++){
+            res[hash[i]] = nums[i];
+            // cout << hash[nums[i]] << " ";
+        }
+        nums = res;
+        return;
     }
 };
