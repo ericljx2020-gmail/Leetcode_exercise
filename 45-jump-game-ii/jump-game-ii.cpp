@@ -1,33 +1,30 @@
 class Solution {
-public: 
-    int cnt = 0;
-    unordered_map<int,bool> st;
-    void BFS(vector<int> &nums){
-        
-        queue<pair<int, int>> q;
-        q.push({0,nums[0]});
-        st[0] = 1;
-
-        while (q.size()){
-            int size = q.size();
-            for (int i = 0; i < size; i++){
-                pair<int,int> t = q.front();
-                q.pop();
-                int idx = t.first, r = t.second;
-                if (idx == nums.size()-1) return ;
-                for (int j = idx+1; j <= idx+r; j++) {
-                    if (j >= nums.size()) continue;
-                    if (st[j]) continue;
-                    q.push({j, nums[j]});
-                    st[j] = 1;
-                }
-            }
-            cnt++;
-        }
-    }
-
+public:
     int jump(vector<int>& nums) {
-        BFS(nums);
-        return cnt;
+        if (nums.size() == 1) return 0;
+        int n = nums.size();
+        int r = 0;
+        int step = 0;
+        int curm = 0;
+        for (int i = 0; i < n; i++){
+            if (i == 0) r = nums[i];
+            int j = i+1;
+            int p = i;
+            curm = max(curm, i+nums[i]);
+            if (curm >= n-1) return step+1;
+            while (j <= r && j < n){
+                if (j+nums[j] > curm){
+                    curm = j + nums[j];
+                    p = j;
+                }
+                j++;
+            }
+            cout << p << " " << curm << '\n';
+            step++;
+            i = p-1;
+            r = curm;
+            if (r >= n-1) return step+1;
+        }
+        return 0;
     }
 };
