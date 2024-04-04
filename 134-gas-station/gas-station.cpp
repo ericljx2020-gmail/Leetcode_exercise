@@ -2,21 +2,22 @@ class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         int n = gas.size();
-        vector<int> dif(n, 0);
-        for (int i = 0; i < n; i++) dif[i] = gas[i] - cost[i];
-        for (int i = 0; i < n; i++) dif.push_back(dif[i]);
-
-        for (int i = 0; i < dif.size(); i++){
-            int cur = dif[i];
-            int j = i;
-            while (j+1 < dif.size() && cur >= 0){
-                j++;
-                cur += dif[j];
+        for (int i = 0; i < n; i++){
+            gas.push_back(gas[i]);
+            cost.push_back(cost[i]);
+        }
+        int l = 0;
+        int cur_fuel = 0;
+        for (int i = 0; i < 2*n; i++){
+            cur_fuel += gas[i];
+            if (cur_fuel < cost[i]){
+                cur_fuel = 0;
+                l = 0;
+            }else{
+                l++;
+                cur_fuel -= cost[i];
             }
-            cout << j << " " << i << endl;
-            if (j - i >= gas.size()) return i;
-            i = j;
-
+            if (l >= n) return i-n+1;
         }
         return -1;
     }
