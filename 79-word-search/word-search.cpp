@@ -5,6 +5,7 @@ public:
     bool flag = false;
     unordered_map<int, unordered_map<int,int>> hash;
     void dfs(int x, int y, vector<vector<char>>& board, string word, int idx){
+        if (flag) return;
         if (idx == word.size()-1){
             flag = true;
             return;
