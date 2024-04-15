@@ -17,6 +17,7 @@ public:
             if (board[a][b] == word[idx+1]){
                 hash[a][b] = 1;
                 dfs(a,b,board, word, idx+1);
+                if (flag) return;
                 hash[a][b] = 0;
             }
         }
