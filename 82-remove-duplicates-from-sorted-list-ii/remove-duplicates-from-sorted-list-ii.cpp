@@ -13,22 +13,21 @@ public:
     ListNode* deleteDuplicates(ListNode* head) {
         auto dummy = new ListNode(0);
         dummy -> next = head;
-        auto prev = dummy;
-        auto temp = head;
+        auto slow = dummy;
+        auto fast = head;
 
-        while (temp && temp -> next){
-            if (temp -> val == temp -> next -> val){
-                int data = temp -> val;
-                while (temp && temp -> val == data){
-                    temp = temp -> next;
+        while (fast && fast -> next) {
+            if (fast -> val == fast -> next -> val){
+                int col = fast -> val;
+                while (fast && fast -> val == col){
+                    fast = fast -> next;
                 }
-                prev -> next = temp;
+                slow -> next = fast;
             }else{
-                prev = temp;
-                temp = temp -> next;
+                slow = fast;
+                fast = fast -> next;
             }
         }
-
         return dummy -> next;
     }
 };
