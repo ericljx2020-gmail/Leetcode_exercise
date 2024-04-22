@@ -12,20 +12,14 @@
 class Solution {
 public:
     vector<int> v;
-
-    void dfs(TreeNode* root){
-        if (root -> left){
-            dfs(root -> left);
-        }
+    void inorder(TreeNode* root){
+        if (!root) return;
+        inorder(root -> left);
         v.push_back(root -> val);
-        if (root -> right){
-            dfs(root -> right);
-        }
-        return;
+        inorder(root -> right);
     }
-
     int kthSmallest(TreeNode* root, int k) {
-        dfs(root);
-        return v[k-1];    
+        inorder(root);
+        return v[k-1];
     }
 };
