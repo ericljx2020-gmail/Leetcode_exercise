@@ -10,25 +10,19 @@
  * };
  */
 class Solution {
-public: 
+public:
     vector<int> v;
-
-    void dfs(TreeNode* root){
-        if (root -> left){
-            dfs(root -> left);
-        }
+    void dfs(TreeNode* root) {
+        if (!root) return;
+        dfs(root -> left);
         v.push_back(root -> val);
-        if (root -> right){
-            dfs(root -> right);
-        }
-        return;
+        dfs(root -> right);
     }
-
     bool isValidBST(TreeNode* root) {
-       dfs(root);
-       for (int i = 0; i < v.size(); i++){
-           if (i != 0 && v[i] <= v[i-1]) return false;
-       }
-       return true;
+        dfs(root);
+        for (int i = 1; i < v.size(); i++){
+            if (v[i] <= v[i-1]) return false;
+        }
+        return true;
     }
 };
