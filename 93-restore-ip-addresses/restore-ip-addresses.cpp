@@ -25,6 +25,7 @@ public:
 
     vector<string> restoreIpAddresses(string s) {
         int n = s.size();
+        if (n > 12) return {};
         vector<string> ans;
         for (int i = 0; i < n; i++){
             for (int j = i+1; j < n; j++){
