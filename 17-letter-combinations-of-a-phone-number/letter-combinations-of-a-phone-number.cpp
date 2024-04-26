@@ -1,25 +1,24 @@
 class Solution {
 public:
-
-    vector<string> res;
-    vector<string> d = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-    string t = "";
-    void dfs(int x, string digits) {
-        if (x >= digits.size()) {
-            res.push_back(t);
+    vector<string> ans;
+    vector<string> hash={"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    string cur = "";
+    void dfs(string digits, int idx){
+        if (idx == digits.size()){
+            ans.push_back(cur);
             return;
         }
-        int dig = digits[x] - '0';
-        for (int i = 0; i < d[dig].size(); i++){
-            t += d[dig][i];
-            dfs(x+1, digits);
-            t = t.substr(0, t.size()-1);
+        char c = digits[idx];
+        int p = c - '0';
+        for (int i = 0; i < hash[p].size(); i++){
+            cur += hash[p][i];
+            dfs(digits, idx+1);
+            cur = cur.substr(0,cur.size()-1);
         }
     }
-
     vector<string> letterCombinations(string digits) {
-        if (digits == "") return {};
-        dfs(0, digits);
-        return res;
+        if (digits.size() == 0) return {};
+        dfs(digits, 0);
+        return ans;
     }
 };
