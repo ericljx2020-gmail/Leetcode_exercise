@@ -1,33 +1,16 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        map<int,int>Map;
-        int l=0, r=0;
-        bool isame = 0;
-        for (int i = 0; i < nums.size(); i++){
-            Map[nums[i]] += 1;
+        unordered_map<int, int> hash;
+        nums.insert(nums.begin(), 0);
+        for (int i = 1; i <= nums.size(); i++) {
+            int t = target - nums[i];
+            if (hash[t] != 0) {
+                return {hash[t]-1, i-1};
+            }
+            hash[nums[i]] = i;
         }
 
-        for (int i = 0; i < nums.size(); i++){
-            int find = target - nums[i];    
-            Map[nums[i]] -= 1;         
-            if (Map[find] >= 1){
-                l = i;
-                r = find;
-                break;
-            }
-            Map[nums[i]] += 1;
-        }
-        // cout << l << " " << r;
-        for (int i = l+1; i < nums.size(); i++){
-               if (nums[i] == r){
-                   r = i;
-                   break;
-               }
-        }
-        vector<int>ans;
-        ans.push_back(l);
-        ans.push_back(r);
-        return (ans);
+        return {};
     }
 };
