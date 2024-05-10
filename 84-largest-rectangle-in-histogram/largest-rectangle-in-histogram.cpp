@@ -2,38 +2,31 @@ class Solution {
 public:
     int largestRectangleArea(vector<int>& h) {
         int n = h.size();
-        h.push_back(0);
-        h.insert(h.begin(),0);
-        int asc[n+5], desc[n+5];
-        for (int i = 0; i <= n; i++) asc[i] = n+1, desc[i] = 0;
-        int q[n+10];
+        int stk[n+10];
         int tt = -1;
-        for (int i = 0; i <= n+1; i++){
-            while (tt != -1 && h[q[tt]] > h[i]){
-                asc[q[tt]] = i;
-                tt--;
+        vector<int> rs(n+1, 0), ls(n+1, 0);
+        //找每一个数右边第一个比自己小的数字
+        for (int i = 0; i < n; i++) {
+            while (tt != -1 && h[i] < h[stk[tt]]){
+                rs[stk[tt--]] = i;
             }
-            q[++tt] = i;
+            stk[++tt] = i;
         }
-        tt = -1;
-        for (int i = n+1; i >= 0; i--){
-            while (tt != -1 && (h[q[tt]] > h[i])){
-                desc[q[tt]] = i;
-                tt--;
+        while (tt != -1){
+            rs[stk[tt--]] = n;
+        }
+        for (int i = n-1; i >= 0; i--) {
+            while (tt != -1 && h[i] < h[stk[tt]]) {
+                ls[stk[tt--]] = i;
             }
-            q[++tt] = i;
+            stk[++tt] = i;
         }
+        while (tt != -1){
+            ls[stk[tt--]] = -1;
+        } 
         int res = 0;
-        // for (int i = 1; i <= n; i++) {
-        //     cout << asc[i] << " ";
-        // }
-        // puts("");
-        // for (int i = 1; i <= n; i++) {
-        //     cout << desc[i] << " ";
-        // }
-        for (int i = 1; i <= n; i++){
-            int curmax = h[i] * (asc[i]-desc[i]-1);
-            res = max(res, curmax);
+        for (int i = 0; i < n; i++) {
+            res = max(res, h[i] * (rs[i] - ls[i]-1));
         }
         return res;
     }
