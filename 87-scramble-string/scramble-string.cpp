@@ -2,6 +2,7 @@ class Solution {
 public:
     bool isScramble(string s1, string s2) {
         int n = s1.size();
+        //f[i][j][k]: s1以i，s2以j开始长度为k的区间可否合并，区间dp从小区间推断到大区间
         vector<vector<vector<bool>>> f(n, vector<vector<bool>> (n, vector<bool> (n+1)));
         for (int k = 1; k <= n; k++) {
             for (int i = 0; i+k-1 < n; i++) {
