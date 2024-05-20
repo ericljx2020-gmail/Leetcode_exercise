@@ -3,66 +3,62 @@ public:
 
     struct Node{
         int key, val;
-        Node *left, *right;
-        Node(int key, int val){
-            this -> key = key;
-            this -> val = val;
-        }
-    }*L, *R;                //two dummy nodes
+        Node* left, *right;
+        Node(int key, int val) : key(key), val(val) {}
+    }*L,*R;
 
-    int n;
+    int capacity;
     unordered_map<int, Node*> hash;
-
-    void insert(auto p){
-        p -> right = L -> right;
-        p -> left = L;
-        L -> right = p;
-        p -> right -> left = p;
+    
+    LRUCache(int _capacity) {
+        capacity = _capacity;
+        L = new Node(-1,-1);
+        R = new Node(-1,-1);
+        L -> right = R;
+        R -> left = L;
     }
 
-    void remove(auto p) {
+    void insert(Node* p) {
+        p -> right = L -> right;
+        p -> left = L;
+        L -> right -> left = p;
+        L -> right = p;
+    }
+
+    void remove(Node* p) {
         p -> left -> right = p -> right;
         p -> right -> left = p -> left;
     }
-
-    LRUCache(int capacity) {
-        L = new Node(0,0);
-        R = new Node(0,0);
-        L -> right = R;
-        R -> left = L;
-        n = capacity;
-    }
     
     int get(int key) {
-        if (hash.count(key) != 0){
-            //说明存在,返回val的同时更新Node位置
+        if (hash.count(key)){
+            //说明已经有了
             auto p = hash[key];
-            remove(p);              //从当前位置删除
-            insert(p);              //插入队列头部
-            return(p -> val);
+            remove(p);
+            insert(p);
+            return p -> val;
         }else{
             return -1;
         }
     }
     
     void put(int key, int value) {
-        if (hash.count(key) != 0){
-            //说明存在当前key，需要修改val
+        if (hash.count(key)){
+            //说明已经存在，修改值即可，不用考虑超出capacity
             auto p = hash[key];
             p -> val = value;
             remove(p);
             insert(p);
         }else{
-            //说明当前key是第一次加入队列
-            if (hash.size() == n){
-                //如果已经满capacity删除最右边的节点
+            //说明不存在要判断
+            if (hash.size() == capacity) {
                 auto p = R -> left;
-                remove(p);
                 hash.erase(p -> key);
+                remove(p);
             }
             auto p = new Node(key, value);
             insert(p);
-            hash[p -> key] = p;
+            hash[key] = p;
         }
     }
 };
