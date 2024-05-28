@@ -5,6 +5,12 @@ public:
         s = ' ' + s;
         vector<int> f(n+1, INT_MAX);
 
+        /*
+        * f[i]：从1-i中分的最小substr数量
+        * f[i]可以从f[i-1], f[i-2], ..., f[i-k]转移过来，条件是
+        * s[i-k, i]的value < k， 所以我们对于每一个地方求出最小值就可以
+        */
+
         int d = 0;
         int kk = k;
         while (kk){
