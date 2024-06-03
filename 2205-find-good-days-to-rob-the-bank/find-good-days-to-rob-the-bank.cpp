@@ -9,9 +9,9 @@ public:
             }else{
                 dec[i] = dec[i-1]+1;
             }
-            cout << dec[i] << ' ';
+            // cout << dec[i] << ' ';
         }
-        puts("");
+        // puts("");
         for (int i = security.size()-1; i >= 0; i--){
             if (i == security.size()-1 || security[i] > security[i+1]){
                 inc[i] = 1;
