@@ -7,7 +7,7 @@ public:
         f.resize(n+1, 0);
         for (int i = 1; i <= n; i++){
             f[i] = f[i-1] + (s[i] == '|');
-            cout << f[i] << ' ';
+            // cout << f[i] << ' ';
         }
         puts("");
         vector<int> res;
