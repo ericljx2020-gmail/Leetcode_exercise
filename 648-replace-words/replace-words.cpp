@@ -1,29 +1,71 @@
 class Solution {
 public:
-    string replaceWords(vector<string>& dictionary, string s) {
-        unordered_map<string, bool> hash;
-        for (auto d : dictionary) hash[d] = true;
-        string res = "";
-        int j = 0;
-        for (int i = 0; i < s.size(); i++){
-            if (s[i] == ' '){
-                res += s.substr(j, i-j) + " ";
-                j = i+1;
-                continue;
+    struct Node{
+        Node* sons[26];
+        bool is_end;
+
+        Node(){
+            is_end = false;
+            for (int i = 0; i < 26; i++) sons[i] = NULL;
+        }
+    }* root;
+
+    void insert(string s){
+        auto u = root;
+        for (auto c : s){
+            if (u -> sons[c-'a']){
+                u = u -> sons[c-'a'];
+            }else{
+                u -> sons[c-'a'] = new Node();
+                u = u -> sons[c-'a'];
             }
-            string c = s.substr(j, i-j+1);
-            if (hash[c]){
-                res+=c+" ";
-                while (i < s.size() && s[i] != ' '){
-                    i++;
-                }
+        }
+        u -> is_end = true;
+    }
+
+    string find(string s){
+        auto u = root;
+        string ret = "";
+        for (auto c : s){
+            if (!u -> sons[c-'a']) return "";
+            u = u -> sons[c-'a'];
+            ret += c;
+            if (u -> is_end){
+                return ret;
+            }
+        }
+        if (u -> is_end) return ret;
+        return "";
+    }
+
+    string replaceWords(vector<string>& dictionary, string s) {
+        //trie做法
+        int n = s.size();
+        root = new Node();
+        for (auto d : dictionary){
+            insert(d);
+        }
+        int j = 0;
+        vector<string> v;
+        for (int i = 0; i < n; i++){
+            if (s[i] == ' '){
+                v.push_back(s.substr(j, i-j));
                 j = i+1;
             }
         }
-        if (j < s.size()){
-            res += s.substr(j) + " ";
+        v.push_back(s.substr(j));
+        // for (auto vv : v) cout << vv << " ";
+        string res = "";
+        for (auto ss : v){
+            auto r = find(ss);
+            if (r != ""){
+                res += r + " ";
+            }else{
+                res += ss + " ";
+            }
         }
         res.pop_back();
         return res;
+        // return "";
     }
 };
