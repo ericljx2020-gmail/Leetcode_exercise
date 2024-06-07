@@ -31,7 +31,7 @@ public:
                 else pos[j] = pos[p] / (g[p].size()-1);
                 q.push({j, step+1});
             }
-            if (flag) pos[p] = 0;
+            if (flag) pos[p] = 0;       //保留叶子结点的值确保最后不走了也能返回答案
         }
 
         return pos[target];
