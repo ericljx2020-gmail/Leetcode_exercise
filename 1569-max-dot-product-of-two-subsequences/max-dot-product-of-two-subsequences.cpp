@@ -24,9 +24,9 @@ public:
                 f[i][j] = max(f[i][j], f[i-1][j-1] + s1[i] * s2[j]);
                 f[i][j] = max(f[i][j], max(f[i-1][j], f[i][j-1]));
                 f[i][j] = max(f[i][j], s1[i] * s2[j]);
-                cout << f[i][j] << " ";
+                // cout << f[i][j] << " ";
             }
-            puts("");
+            // puts("");
         }
         return f[n][m];
     }
