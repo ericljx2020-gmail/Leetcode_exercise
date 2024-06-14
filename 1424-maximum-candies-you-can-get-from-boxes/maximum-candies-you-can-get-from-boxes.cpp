@@ -13,7 +13,7 @@ public:
         while (q.size()){
             auto t = q.front();
             q.pop();
-            cout << t << " ";
+            // cout << t << " ";
             if (has_key[t] || status[t]){
                 res += candies[t];
                 cnt = 0;
