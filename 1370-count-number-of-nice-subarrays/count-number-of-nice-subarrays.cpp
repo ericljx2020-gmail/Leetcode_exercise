@@ -6,7 +6,7 @@ public:
         vector<int> f(n+1, 0);  //f[i] : there are f[i] number of odd number in range [0-i]
         for (int i = 1; i <= n; i++){
             f[i] = f[i-1] + (nums[i] & 1);
-            cout << f[i] << " ";
+            // cout << f[i] << " ";
         }
 
         unordered_map<int, int> hash;
