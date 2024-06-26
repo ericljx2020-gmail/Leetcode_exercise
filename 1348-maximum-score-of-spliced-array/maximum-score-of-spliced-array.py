@@ -1,10 +1,10 @@
 class Solution:
     def maximumsSplicedArray(self, nums1: List[int], nums2: List[int]) -> int:
         #保证nums1大
-        print(sum(nums1), sum(nums2))
+        # print(sum(nums1), sum(nums2))
         if sum(nums1) < sum(nums2):
             nums1, nums2 = nums2, nums1
-        print(sum(nums1), sum(nums2))
+        # print(sum(nums1), sum(nums2))
         diff1 = []
         diff2 = []
         for i in range(len(nums1)):
