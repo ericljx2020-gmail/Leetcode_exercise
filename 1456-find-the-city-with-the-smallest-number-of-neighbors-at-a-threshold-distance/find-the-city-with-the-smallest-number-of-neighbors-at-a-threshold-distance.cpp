@@ -1,8 +1,7 @@
 class Solution {
 public:
     int findTheCity(int n, vector<vector<int>>& edges, int d) {
-        int g[101][101], f[101][101];
-        memset(f, 0x3f, sizeof f);
+        int g[101][101];
         memset(g, 0x3f, sizeof g);
         for (int i = 0; i < n; i++){
             g[i][i] = 0;
