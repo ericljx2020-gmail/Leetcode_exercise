@@ -30,7 +30,7 @@ public:
             if (!hash[i]) return false;
         }
 
-        cout << "\n" << stob("1") << '\n';
+        // cout << "\n" << stob("1") << '\n';
         return true;
     }
 };
