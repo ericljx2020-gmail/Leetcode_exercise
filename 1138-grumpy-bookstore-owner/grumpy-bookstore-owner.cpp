@@ -1,36 +1,24 @@
 class Solution {
 public:
-    int maxSatisfied(vector<int>& c, vector<int>& g, int k) {
-        int n = c.size();
-        c.insert(c.begin(), 0);
-        g.insert(g.begin(), 0);
-        vector<int> cp(1,0), f(n+1,0);
-        for (int i = 1; i <= n; i++){
-            cp.push_back(c[i] * (1-g[i]));
-        }
-        //cp是原本grumpy * customer的前缀和
-        for (int i = 1; i <= n; i++){
-            f[i] = f[i-1] + cp[i];
-        }
-        // cout << f[n] << "\n";
-
-        //用滑动窗口来计算每一个窗口可以加多少
-        int cur = 0;
-        int maxv = 0;
-        int q[n+10];
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int k) {
+        int n = customers.size();
+        int q[100000];
         int tt = -1, hh = 0;
-        for (int i = 1; i <= n; i++){
+        int orig = 0;
+        int add = 0;
+        int maxadd = 0;
+        for (int i = 0; i < n; i++){
+            orig += (1-grumpy[i]) * customers[i];
+        }
+        // cout << orig;
+        for (int i = 0; i < n; i++){
             if (hh <= tt && q[hh] < i-k+1){
-                cur -= g[q[hh]] * c[q[hh]];        //如果g[q[hh]]是1的话说明本来就没有加，如果是0说明加了所以要剪掉
-                hh++;
+                add -= (grumpy[q[hh]] == 1) * customers[q[hh++]];
             }
             q[++tt] = i;
-            cur += g[i] * c[i];
-            if (i >= k) {
-                maxv = max(maxv, cur);
-                // cout << cur << " ";
-            }
+            add += (grumpy[i] == 1) * customers[i];
+            maxadd = max(maxadd, add);
         }
-        return maxv+f[n];
+        return orig + maxadd;
     }
 };
