@@ -1,20 +1,17 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int res = 0, n = s.size();
-        int l = 0, r = -1;
-        unordered_map<char, char> hash;
-        while (++r < n) {
-            if (hash[s[r]]){
-                while(hash[s[r]]){
-                    hash[s[l++]] = 0;
+        unordered_map<char, int> hash;
+        int n = s.size();
+        int res = 0;
+        for (int i = 0, j = 0; i < n; i++){
+            if (hash[s[i]] == 1){
+                while (j < i && hash[s[i]] == 1){
+                    hash[s[j++]]--;
                 }
-                hash[s[r]] = 1;
-            }else{
-                hash[s[r]] = 1;
             }
-            res = max(res, r-l+1);
-            cout << l << " " << r << " " << res << '\n';
+            hash[s[i]]++;
+            res = max(res, i-j+1);
         }
         return res;
     }
