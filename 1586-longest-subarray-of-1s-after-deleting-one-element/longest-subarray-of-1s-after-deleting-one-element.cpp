@@ -2,22 +2,19 @@ class Solution {
 public:
     int longestSubarray(vector<int>& nums) {
         int n = nums.size();
-        int tt = -1, hh = 0;
-        int q[100005];
-        int l = 0;
+        int cnt = 0;
         int res = 0;
-        for (int i = 0; i < n; i++){
+        for (int i = 0, j = 0; i < n; i++){
             if (nums[i] == 0){
-                if (tt-hh >= 0){
-                    l = q[hh]+1;
-                    // cout << "l: " << l << endl;
-                    hh++;
+                if (cnt == 1){
+                    while (j < i && cnt == 1){
+                        cnt -= (nums[j] == 0);
+                        j++;
+                    }
                 }
-                q[++tt] = i;
+                cnt++;
             }
-            res = max(res, i-l);
-            // cout << i << " " << l << " " << res << "\n";
-            // cout << q[hh] << endl;
+            res = max(res, i-j);
         }
         return res;
     }
