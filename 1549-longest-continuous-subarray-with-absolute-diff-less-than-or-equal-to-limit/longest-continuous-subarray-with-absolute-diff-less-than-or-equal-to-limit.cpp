@@ -1,16 +1,16 @@
 class Solution {
 public:
     int longestSubarray(vector<int>& nums, int limit) {
-        multiset<int> s;
+        multiset<int> ss;       //平衡树，插入删除查找都是O(logn)
         int n = nums.size();
-        int cur = 0;
+        int res = 0;
         for (int i = 0, j = 0; i < n; i++){
-            s.insert(nums[i]);
-            while (*s.rbegin() - *s.begin() > limit){
-                s.erase(s.find(nums[j++]));
-            }    
-            cur = max(cur, i-j+1);
+            ss.insert(nums[i]);
+            while (*ss.rbegin() - *ss.begin() > limit){
+                ss.erase(ss.find(nums[j++]));
+            }
+            res = max(res, i-j+1);
         }
-        return cur;
+        return res;
     }
 };
