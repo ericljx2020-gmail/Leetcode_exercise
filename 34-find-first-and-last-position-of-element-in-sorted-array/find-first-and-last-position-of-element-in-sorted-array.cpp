@@ -3,28 +3,26 @@ public:
     vector<int> searchRange(vector<int>& nums, int target) {
         int n = nums.size();
         int l = 0, r = n-1;
-        if (n == 0) return {-1,-1};
-        vector<int> res(2,-1);
         while (l < r){
-            int mid = l + r >> 1;
-            if (nums[mid] >= target){
-                r = mid;
+            int k = l + r + 1 >> 1;
+            if (nums[k] <= target){
+                l = k;
             }else{
-                l = mid+1;
+                r = k-1;
             }
         }
-        if (nums[r] == target) res[0] = r;
-
+        int rr = -1;
+        if (r >= 0 && r < n) rr = nums[r] == target ? r : -1;
         l = 0, r = n-1;
         while (l < r){
-            int mid = l + r + 1>> 1;
-            if (nums[mid] <= target){
-                l = mid;
+            int k = l + r >> 1;
+            if (nums[k] >= target){
+                r = k;
             }else{
-                r = mid-1;
+                l = k+1;
             }
         }
-        if (nums[r] == target) res[1] = r;
-        return res;
+        if (r < n && r >= 0) r = nums[r] == target ? r : -1;
+        return {r, rr};
     }
 };
