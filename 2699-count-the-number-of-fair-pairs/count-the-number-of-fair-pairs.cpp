@@ -32,7 +32,7 @@ public:
             int ll = r;
             if (nums[ll] < l_new || nums[ll] > r_new || nums[rr] < l_new || nums[rr] > r_new) continue;
             res += rr-ll+1;
-            cout << ll << " " << rr << "\n";
+            // cout << ll << " " << rr << "\n";
         }
         return res;
     }
