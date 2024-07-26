@@ -5,7 +5,7 @@ public:
         int l = 0, r = n;
         while (l < r){
             int mid = l + r + 1 >> 1;
-            cout << mid << " ";
+            // cout << mid << " ";
             if (citations[n-mid] >= mid){
                 l = mid;
             }else{
