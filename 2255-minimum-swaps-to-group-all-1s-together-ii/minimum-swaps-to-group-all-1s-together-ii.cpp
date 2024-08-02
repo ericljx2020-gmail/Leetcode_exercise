@@ -1,28 +1,26 @@
 class Solution {
 public:
     int minSwaps(vector<int>& nums) {
-        int k = 0;
-        for (auto c : nums){
-            k += c;
-        }
         int n = nums.size();
+        int k = 0;
         for (int i = 0; i < n; i++){
+            k += nums[i];
             nums.push_back(nums[i]);
         }
-        int q[1000000];
         int tt = -1, hh = 0;
-        int cnt = 0;
-        int maxv = 0;
+        int q[10000000];
+        int cur = 0;
+        int res = 0;
         for (int i = 0; i < 2*n; i++){
-            if (hh <= tt && q[hh] < i-k+1){
-                cnt -= nums[q[hh++]];
+            while (hh <= tt && q[hh] < i-k+1){
+                cur -= nums[q[hh++]];
             }
             q[++tt] = i;
-            cnt += nums[i];
+            cur += nums[i];
             if (i >= k-1){
-                maxv = max(maxv, cnt);
+                res = max(res, cur);
             }
         }
-        return k - maxv;
+        return k-res;
     }
 };
