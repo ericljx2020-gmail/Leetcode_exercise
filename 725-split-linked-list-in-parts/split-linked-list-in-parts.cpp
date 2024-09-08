@@ -12,30 +12,29 @@ class Solution {
 public:
     vector<ListNode*> splitListToParts(ListNode* head, int k) {
         int n = 0;
-        vector<ListNode*> res;
-        ListNode* pt = head;
-        while (pt) {
+        auto w = head;
+        while (w){
             n++;
-            pt = pt -> next;
+            w = w -> next;
         }
-        ListNode* rt = head, *lt = head;
-        for (int i = 1; i <= k; i++){
-            int l = n / k;
-            if (i <= n % k) l++;
-            while (l-1 > 0){
-                rt = rt -> next;
-                l--;
+        vector<ListNode*> res;
+        int size = n / k;
+        int residual = n % k;
+        auto cur = head;
+        auto prev = head;
+        for (int i = 0; i < k; i++){
+            int sz = size + (residual-- > 0);
+            auto curhead = cur;
+            while (sz--){
+                prev = cur;
+                cur = cur -> next;
             }
-            if (rt){
-                cout << rt -> val << endl;
-                ListNode* tmp = rt;
-                rt = rt -> next;
-                tmp -> next = nullptr;
-                res.push_back(lt);
-                lt = rt;
-            }else{
-                res.push_back({});
+
+            if (prev){
+                prev -> next = NULL;
             }
+            res.push_back(curhead);
+
         }
         return res;
     }
