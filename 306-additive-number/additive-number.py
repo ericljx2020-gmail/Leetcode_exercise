@@ -15,7 +15,7 @@ class Solution:
             if c == num[buffer+la+lb:buffer+la+lb+len(c)]:
                 if buffer+la+lb+len(c) == n: 
                     self.flag = True
-                    print(self.flag)
+                    # print(self.flag)
                     return
                 dfs(str(b), c, buffer+la)
 
@@ -24,7 +24,7 @@ class Solution:
                 a = num[:i]
                 b = num[i:i+j]
                 dfs(a,b,0)
-                print(self.flag)
+                # print(self.flag)
                 if self.flag: return True
 
         return False
