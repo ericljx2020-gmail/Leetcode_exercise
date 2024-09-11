@@ -4,7 +4,7 @@ class Solution:
         self.flag = False
         def dfs(a, b, buffer):
             # global flag
-            print(a,b)
+            # print(a,b)
             if (len(a) != 1 and a[0] == '0') or (len(b) != 1 and b[0] == '0'): return
             la = len(a)
             lb = len(b)
