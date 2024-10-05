@@ -2,30 +2,33 @@ class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
         if (s1.size() > s2.size()) return false;
-        unordered_map<char, int> hash1, hash2;
-        int tt = -1, hh = 0;
-        int q[1000000];
-        int n = s2.size(), k = s1.size();
-        for (auto a : s1){
-            hash1[a]++;
-        }
-        for (int i = 0; i < n; i++) {
-            if (hh <= tt && q[hh] < i-k+1){
-                hash2[s2[q[hh++]]]--;
+        int n = s1.size(), m = s2.size();
+        vector<vector<int>> p(m+1, vector<int> (26, 0));
+        s2 = ' ' + s2;
+        for (int i = 1; i <= m; i++){
+            int c = s2[i] - 'a';
+            for (int j = 0; j < 26; j++){
+                if (c != j) p[i][j] = p[i-1][j];
+                else p[i][j] = p[i-1][j]+1;
             }
-            q[++tt] = i;
-            hash2[s2[i]]++;
-
-            if (i >= k-1){
-                bool flag = true;
-                for (char c='a'; c <= 'z'; c++){
-                    if (hash1[c] != hash2[c]) {
-                        flag = false;
-                    }
+        }
+        vector<int> v(26, 0);
+        for (auto c : s1){
+            v[c-'a']++;
+        }
+        for (int r = n; r <= m; r++){
+            int l = r-n+1;
+            bool flag = true;
+            for (int i = 0; i < 26; i++){
+                if (v[i] != p[r][i] - p[l-1][i]) {
+                    flag = false;
+                    break;
                 }
-                if (flag) return true;
             }
-        }
+            if (!flag) continue;
+            // cout << l << " " << r;
+            return true;
+        }        
         return false;
     }
 };
