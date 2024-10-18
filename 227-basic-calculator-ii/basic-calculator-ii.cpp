@@ -1,52 +1,60 @@
 class Solution {
 public:
-    unordered_map<char, int> prior = {
-        {'+', 1},
-        {'-', 1},
-        {'*', 2},
-        {'/', 2},
-    };
-
-    stack<int> nums;
-    stack<char> op;
-
     int calculate(string s) {
+        stack<char> op;
+        stack<int> num;
         int n = s.size();
-
-        for (int i = 0; i < n; i++){
-            auto c = s[i];
-            if (c == ' ') continue;
-            if (isdigit(c)){
-                int j = i+1;
-                int u = c-'0';
-                while (j < n && s[j] != ' ' && isdigit(s[j])) u = u * 10 + (s[j++] - '0');
-                nums.push(u);
+        for (int i = 0; i < n; i++) {
+            if (isdigit(s[i])) {
+                int j = i;
+                int v = 0;
+                while (j < n && isdigit(s[j])){
+                    v = v * 10 + (s[j] - '0');
+                    j++;
+                }
                 i = j-1;
-            }else{
-                char cur = s[i];
-                while (op.size() && prior[op.top()] >= prior[cur]){
-                    calc();
+                num.push(v);
+                if (op.size() && (op.top() == '*' || op.top() == '/')) {
+                    auto sec = num.top(); num.pop();
+                    auto fst = num.top(); num.pop();
+                    auto opr = op.top(); op.pop();
+                    if (opr == '*'){
+                        num.push(fst * sec);
+                    }else{
+                        num.push(fst / sec);
+                    }
+                }
+            }else if (s[i] != ' '){
+                if (s[i] == '*' || s[i] == '/') {
+                    op.push(s[i]);
+                    continue;
+                }
+                while (op.size()){
+                    auto t = op.top(); op.pop();
+                    auto sec = num.top(); num.pop();
+                    auto fst = num.top(); num.pop();
+                    if (t == '+') num.push(fst + sec);
+                    if (t == '-') num.push(fst - sec);
+                    if (t == '*') num.push(fst * sec);
+                    if (t == '/') num.push(fst / sec);
                 }
                 op.push(s[i]);
             }
         }
         while (op.size()){
-            calc();
+            auto t = op.top(); op.pop();
+            auto sec = num.top(); num.pop();
+            auto fst = num.top(); num.pop();
+            if (t == '+') num.push(fst + sec);
+            else num.push(fst - sec);
+            cout << t << " ";
+            cout << fst << " " << sec << '\n';
         }
-        return nums.top();
+        // puts("");
+        // while (num.size()){
+        //     int t = num.top(); num.pop();
+        //     cout << t << " ";
+        // }
+        return num.top();
     }
-
-    void calc() {
-        auto oper = op.top(); op.pop();
-        int a = nums.top(); nums.pop();
-        int b = nums.top(); nums.pop();
-        cout << a << " " << b << "\n";
-
-        if (oper == '+') nums.push(a + b);
-        else if (oper == '-') nums.push(b-a);
-        else if (oper == '/') nums.push(b / a);
-        else if (oper == '*') nums.push(a * b);
-        return;
-    }
-
 };
