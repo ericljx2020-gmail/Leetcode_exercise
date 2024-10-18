@@ -13,15 +13,11 @@ class Solution {
 public:
 
     Node* lowestCommonAncestor(Node* p, Node * q) {
-        unordered_map<Node*, bool> hash;
-        while (p || q) {
-            if (p == q) return p;
-            if (p && hash[p]) return p;
-            if (q && hash[q]) return q;
-            if (p) hash[p] = true;
-            if (q) hash[q] = true;
-            if (p) p = p -> parent;
-            if (q) q = q -> parent;
+        auto p1 = p, p2 = q;
+        while (p1 && p2){
+            if (p1 == p2) return p1;
+            p1 = p1 -> parent ? p1 -> parent : q;
+            p2 = p2 -> parent ? p2 -> parent : p;
         }
         return NULL;
     }
