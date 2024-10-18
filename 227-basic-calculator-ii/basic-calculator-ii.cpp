@@ -35,8 +35,6 @@ public:
                     auto fst = num.top(); num.pop();
                     if (t == '+') num.push(fst + sec);
                     if (t == '-') num.push(fst - sec);
-                    if (t == '*') num.push(fst * sec);
-                    if (t == '/') num.push(fst / sec);
                 }
                 op.push(s[i]);
             }
