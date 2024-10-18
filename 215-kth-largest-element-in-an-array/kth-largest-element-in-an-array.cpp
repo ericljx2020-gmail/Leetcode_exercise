@@ -1,18 +1,20 @@
 class Solution {
 public:
-    int findKthLargest(vector<int>& nums, int k) {
-        unordered_map<int, int> hash;
-        int minv = INT_MAX, maxv = INT_MIN;
-        for (auto c : nums) {
-            minv = min(minv, c);
-            maxv = max(maxv, c);
-            hash[c] ++;
+
+    int quicksort(vector<int> nums, int l, int r, int k) {
+        if (l == r) return nums[k];
+        int x = nums[l], i = l-1, j = r+1;
+        while (i < j) {
+            do(i++); while (nums[i] > x);
+            do(j--); while (nums[j] < x);
+            if (i < j) swap(nums[i], nums[j]);
         }
 
-        for (int i = maxv; i >= minv; i--){
-            k -= hash[i];
-            if (k <= 0) return i;
-        }
-        return -1;
+        if (k <= j) return quicksort(nums, l, j, k);
+        else return quicksort(nums, j+1, r, k);
+    }
+
+    int findKthLargest(vector<int>& nums, int k) {
+        return quicksort(nums, 0, nums.size()-1, k-1);
     }
 };
