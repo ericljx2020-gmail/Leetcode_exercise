@@ -10,18 +10,19 @@
 class Solution {
 public:
     TreeNode* res = NULL;
+
+    int dfs(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root) return 0;            //root为空，当前子树肯定没有q和p
+        int state = dfs(root -> left, p, q);
+        if (root == p) state |= 1;
+        if (root == q) state |= 2;
+        state |= dfs(root -> right, p, q);
+        if (state == 3 && res == NULL) res = root;
+        return state;
+    }
+
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         dfs(root, p, q);
         return res;
-    }
-
-    int dfs(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if (!root) return 0;
-        int st = dfs(root->left, p, q);
-        if (root -> val == p -> val) st |= 2;
-        if (root -> val == q -> val) st |= 1;
-        st |= dfs(root->right, p, q);
-        if (st == 3 && res == NULL) res = root;
-        return st;
     }
 };
