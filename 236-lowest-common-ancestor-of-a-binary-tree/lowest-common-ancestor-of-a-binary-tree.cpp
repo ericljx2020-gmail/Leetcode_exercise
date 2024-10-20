@@ -9,15 +9,16 @@
  */
 class Solution {
 public:
+
     TreeNode* res = NULL;
 
     int dfs(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if (!root) return 0;            //root为空，当前子树肯定没有q和p
+        if (!root) return 0;
         int state = dfs(root -> left, p, q);
         if (root == p) state |= 1;
         if (root == q) state |= 2;
         state |= dfs(root -> right, p, q);
-        if (state == 3 && res == NULL) res = root;
+        if (state == 3 && !res) res = root;
         return state;
     }
 
