@@ -18,7 +18,7 @@ public:
         if (root == p) state |= 1;
         if (root == q) state |= 2;
         state |= dfs(root -> right, p, q);
-        if (state == 3 && !res) res = root;
+        if (state == 3 && res == NULL) res = root;
         return state;
     }
 
