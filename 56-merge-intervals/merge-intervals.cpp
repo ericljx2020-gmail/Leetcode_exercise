@@ -1,20 +1,23 @@
 class Solution {
 public:
-    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    static bool cmp(vector<int> a, vector<int> b){
+        if (a[0] != b[0]) return a[0] < b[0];
+        return a[1] > b[1];
+    }
+
+    vector<vector<int>> merge(vector<vector<int>>& c) {
+        sort(c.begin(), c.end(), cmp);
         vector<vector<int>> res;
-        int n = intervals.size();
-        sort(intervals.begin(), intervals.end());
-        int tt = -1, hh = -1;
-        for (int i = 0; i < n; i++){
-            if (intervals[i][0] <= tt){
-                tt = max(tt, intervals[i][1]);
+        int l = -1, r = -1;
+        for (int i = 0; i < c.size(); i++) {
+            if (c[i][0] <= r){
+                r = max(r, c[i][1]);
             }else{
-                if (hh != -1)res.push_back({hh,tt});
-                hh = intervals[i][0];
-                tt = intervals[i][1];
+                if (l != -1 && r != -1) res.push_back({l,r});
+                l = c[i][0], r = c[i][1];
             }
         }
-        res.push_back({hh,tt});
+        res.push_back({l,r});
         return res;
     }
 };
