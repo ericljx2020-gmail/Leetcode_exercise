@@ -16,23 +16,26 @@ public:
 
 class Solution {
 public:
-
-    unordered_map<Node*, Node*> hash;
-
     Node* copyRandomList(Node* head) {
-        if (!head) return head;
+        Node* dummy = new Node(0);
+
         auto p = head;
+        auto q = dummy;
+        unordered_map<Node*, Node*> hash;
         while (p) {
-            hash[p] = new Node(p -> val);
+            q -> next = new Node(p -> val);
+            hash[p] = q->next;
+            q = q -> next;
+            p = p -> next;
+        }
+        q = dummy -> next;
+        p = head;
+        while (q) {
+            if (p -> random)q -> random = hash[p -> random];
+            q = q -> next;
             p = p -> next;
         }
 
-        p = head;
-        while (p) {
-            hash[p] -> next = hash[p -> next];
-            hash[p] -> random = hash[p -> random];
-            p = p->next;
-        }
-        return hash[head];
+        return dummy -> next;
     }
 };
