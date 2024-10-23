@@ -13,22 +13,22 @@ class Solution {
 public:
     vector<int> rightSideView(TreeNode* root) {
         if (!root) return {};
-        vector<int> res;
-        unordered_map<int, bool> hash;
+        vector<int> res(200, -1);
         queue<pair<TreeNode*, int>> q;
         q.push({root, 0});
-
-        while (q.size()){
+        int h = 0;
+        while (q.size()) {
             auto t = q.front();
             q.pop();
-
-            if (!hash[t.second]) {
-                hash[t.second] = 1;
-                res.push_back(t.first -> val);
-            }
+            h = max(h, t.second);
+            if (res[t.second] == -1) res[t.second] = t.first -> val;
             if (t.first -> right) q.push({t.first -> right, t.second+1});
-            if (t.first -> left) q.push({t.first -> left, t.second + 1});
+            if (t.first -> left) q.push({t.first -> left, t.second+1});
         }
-        return res;
+        vector<int> ans;
+        for (int i = 0; i <= h; i++){
+            ans.push_back(res[i]);
+        }
+        return ans;
     }
 };
