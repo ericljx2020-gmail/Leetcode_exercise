@@ -11,38 +11,30 @@
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        int n = lists.size();
+        auto dummy = new ListNode(0);
+        auto p = dummy;
         unordered_map<int, vector<ListNode*>> hash;
-        int minv = INT_MAX;
-        int maxv = INT_MIN;
-        for (int i = 0; i < n; i++){
-            auto p = lists[i];
-            if (!p) continue;
-            hash[p->val].push_back(p);
-            minv = min(minv, p -> val);
-            maxv = max(maxv, p -> val);
+        priority_queue<int, vector<int>, greater<int>> heap;
+        for (auto node : lists) {
+            if (!node) continue;
+            heap.push(node -> val);
+            hash[node -> val].push_back(node);
         }
 
-        // for (auto c: hash){
-        //     cout << c.first << "\n";
-        //     for (auto a : c.second){
-        //         cout << a -> val << ' ';
-        //     }
-        //     puts("");
-        // }
+        while (heap.size()){
+            auto t = heap.top();
+            heap.pop();
 
-
-        auto dum = new ListNode(0);
-        auto ptr = dum;
-        for (int i = minv; i <= 1e4; i++){
-            for (int j = 0; j < hash[i].size(); j++){
-                ptr -> next = hash[i][j];
-                ptr = ptr -> next;
-                if (ptr -> next) hash[ptr -> next -> val].push_back(ptr -> next);
+            auto q = hash[t][hash[t].size()-1];
+            hash[t].pop_back();
+            p -> next = q;
+            p = p -> next;
+            q = q -> next;
+            if (q) {
+                hash[q->val].push_back(q);
+                heap.push(q -> val);
             }
-            hash[i].clear();
         }
-        return dum -> next;
-        return {};
+        return dummy -> next;
     }
 };
