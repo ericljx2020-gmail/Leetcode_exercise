@@ -12,24 +12,19 @@
 class Solution {
 public:
     int res = 0;
-    void findRoot(TreeNode* cur, int sum) {
-        if (!cur) {
-            return;
+
+    void dfs(TreeNode* p, int h) {
+        int cur = h * 10 + p -> val;
+        if (!p -> left && !p ->right){
+            res +=cur;
         }
-        sum *= 10;
-        sum += cur -> val;
-        cout << cur -> val << " " << sum << '\n';
-        if ((!cur -> left) && (!cur -> right)) {
-            res += sum;
-            return;
-        }
-        findRoot(cur -> left, sum);
-        findRoot(cur -> right, sum);
-        
+        if (p -> left) dfs(p -> left, cur);
+        if (p -> right) dfs(p -> right, cur);
     }
 
     int sumNumbers(TreeNode* root) {
-        findRoot(root, 0);
+        if (!root) return 0;
+        dfs(root, 0);
         return res;
     }
 };
