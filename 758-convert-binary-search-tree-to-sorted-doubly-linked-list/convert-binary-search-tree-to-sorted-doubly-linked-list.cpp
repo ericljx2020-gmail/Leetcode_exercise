@@ -28,24 +28,22 @@ public:
     Node* last = NULL;
     Node* treeToDoublyList(Node* root) {
         if (!root) return root;
-        inorder(root);
-        last -> right = first;
+        dfs(root);
         first -> left = last;
+        last -> right = first;
         return first;
     }
 
-    void inorder(Node* root){
-        if (!root) return;
-
-        inorder(root -> left);
-        if (last != NULL){
-            last -> right = root;
-            root -> left = last;
+    void dfs(Node* p){
+        if (!p) return;
+        dfs(p -> left);
+        if (last){
+            last -> right = p;
+            p -> left = last;
         }else{
-            first = root;
+            first = p;
         }
-        last = root;
-        inorder(root -> right);
+        last = p;
+        dfs(p -> right);
     }
-
 };
