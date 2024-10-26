@@ -32,8 +32,8 @@ public:
         auto next = head -> next;
         while (true){
             if ((prev -> val <= insertVal && insertVal <= next->val) || 
-                (prev -> val > next -> val && insertVal < next -> val) ||
-                (prev -> val > next -> val && insertVal > prev -> val)){
+                (prev -> val > next -> val && insertVal <= next -> val) ||
+                (prev -> val > next -> val && insertVal >= prev -> val)){
                     prev -> next = new Node(insertVal, next);
                     inserted = true;
                     break;
