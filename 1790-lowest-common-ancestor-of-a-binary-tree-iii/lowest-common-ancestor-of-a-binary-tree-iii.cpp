@@ -11,14 +11,12 @@ public:
 
 class Solution {
 public:
-
     Node* lowestCommonAncestor(Node* p, Node * q) {
-        auto p1 = p, p2 = q;
-        while (p1 && p2){
-            if (p1 == p2) return p1;
-            p1 = p1 -> parent ? p1 -> parent : q;
-            p2 = p2 -> parent ? p2 -> parent : p;
+        auto pp = p, qq = q;
+        while (pp != qq) {
+            pp = pp -> parent ? pp -> parent : q;
+            qq = qq -> parent ? qq -> parent: p;
         }
-        return NULL;
+        return pp;
     }
 };
