@@ -1,15 +1,16 @@
 class Solution {
 public:
     bool isPalindrome(string s) {
-        string t = "";
+        string ss = "";
         for (auto c : s) {
-            if ('a' <= c && c <= 'z') t += c;
-            else if ('A' <= c && c <= 'Z') t += (c+32);
-            else if ('0' <= c && c <= '9') t += c;
-            else continue;
+            if (c <= 'Z' && c >= 'A') {
+                ss += 'a' + c - 'A';
+            }else if ((c <= 'z' && c >= 'a') || (c <= '9' && c >= '0')){
+                ss += c;
+            }
         }
-        for (int i = 0; i < t.size()/2; i++) {
-            if (t[i] != t[t.size()-i-1]) return false;
+        for (int i = 0; i < ss.size() / 2; i++){
+            if (ss[i] != ss[ss.size()-1-i]) return false;
         }
         return true;
     }
