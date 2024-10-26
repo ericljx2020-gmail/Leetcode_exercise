@@ -21,27 +21,38 @@ public:
 
 class Solution {
 public:
-
-    unordered_map<Node*, Node*> hash;
-
     Node* cloneGraph(Node* node) {
         if (!node) return {};
-        dfs(node);          //复制所有点
-
-        for (auto [s,d] : hash) {
-            for (auto v : s -> neighbors) {
-                d -> neighbors.push_back(hash[v]);
+        unordered_map<Node*, Node*> hash;
+        queue<Node*> q;
+        q.push(node);
+        hash[node] = new Node(node -> val);
+        while (q.size()) {
+            auto t = q.front();
+            q.pop();
+            cout << hash[t] -> val << " ";
+            for (int i = 0; i < t -> neighbors.size(); i++){
+                if (!hash.count(t->neighbors[i])) {
+                    q.push(t->neighbors[i]);
+                    hash[t->neighbors[i]] = new Node(t->neighbors[i]->val);
+                }
             }
         }
-
-        return hash[node];
-    }
-
-    void dfs(Node* node) {
-        hash[node] = new Node(node -> val);
-
-        for (auto v :node -> neighbors) {
-            if (!hash[v]) dfs(v);
+        unordered_map<Node*, bool> st;
+        q.push(node);
+        st[node] = 1;
+        while (q.size()){
+            auto t = q.front();
+            q.pop();
+            auto tt = hash[t];
+            for (auto c : t->neighbors){
+                tt -> neighbors.push_back(hash[c]);
+                if (!st[c]) {
+                    q.push(c);
+                    st[c] = 1;
+                }
+            }
         }
+        return hash[node];
     }
 };
