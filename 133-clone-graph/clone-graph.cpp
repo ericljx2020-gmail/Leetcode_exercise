@@ -30,7 +30,7 @@ public:
         while (q.size()) {
             auto t = q.front();
             q.pop();
-            cout << hash[t] -> val << " ";
+            // cout << hash[t] -> val << " ";
             for (int i = 0; i < t -> neighbors.size(); i++){
                 if (!hash.count(t->neighbors[i])) {
                     q.push(t->neighbors[i]);
