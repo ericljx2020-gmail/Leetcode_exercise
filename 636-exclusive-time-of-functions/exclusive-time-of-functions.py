@@ -4,16 +4,17 @@ class Solution:
         stk = []
         last = 0
         for log in logs:
-            rec = log.split(":")
-            idx,op,t = int(rec[0]), rec[1], int(rec[2])
+            p = log.split(':')
+            idx, op, t = int(p[0]), p[1], int(p[2])
+
             if op == "start":
-                if len(stk) > 0:
+                if len(stk):
                     res[stk[-1]] += t - last
-                    last = t
+                    last = t    
                 stk.append(idx)
             else:
-                res[stk[-1]] += t-last +1
+                res[stk[-1]] += t-last+1
                 last = t+1
                 stk.pop()
-
+            
         return res
