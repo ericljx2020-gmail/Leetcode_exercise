@@ -29,28 +29,20 @@
  */
 class Solution {
 public:
-
     int res = 0;
 
-    void dfs(vector<NestedInteger> ll, int layer) {
-        for (auto c : ll) {
-            if (c.isInteger()){
-                res += c.getInteger() * layer;
+    void dfs(vector<NestedInteger>& nestedList, int c){
+        for (auto l : nestedList){
+            if (l.isInteger()){
+                res += c * l.getInteger();
             }else{
-                dfs(c.getList(), layer+1);
+                dfs(l.getList(), c+1);
             }
         }
     }
 
     int depthSum(vector<NestedInteger>& nestedList) {
-        int layer = 1;
-        for (auto c : nestedList){
-            if (c.isInteger()) {
-                res += c.getInteger() * layer;
-            }else{
-                dfs(c.getList(), layer+1);
-            }
-        }
+        dfs(nestedList, 1);
         return res;
     }
 };
