@@ -1,58 +1,50 @@
 class Solution {
 public:
+    stack<int> nums;
+    stack<char> op;
     int calculate(string s) {
-        stack<char> op;
-        stack<int> num;
+        unordered_map<char, int> pr;
+        pr['+'] = pr['-'] = 1, pr['*'] = pr['/'] = 2;
         int n = s.size();
-        for (int i = 0; i < n; i++) {
-            if (isdigit(s[i])) {
+        for (int i = 0; i < n; i++){
+            if (s[i] == ' ') continue;
+            if (s[i] == '(') op.push(s[i]);
+            else if (s[i] == ')'){
+                while (op.size() && op.top() != '('){
+                    eval();
+                }
+            }else if (isdigit(s[i])){
                 int j = i;
-                int v = 0;
+                int cur = 0;
                 while (j < n && isdigit(s[j])){
-                    v = v * 10 + (s[j] - '0');
+                    cur = cur * 10 + (s[j] - '0');
                     j++;
                 }
                 i = j-1;
-                num.push(v);
-                if (op.size() && (op.top() == '*' || op.top() == '/')) {
-                    auto sec = num.top(); num.pop();
-                    auto fst = num.top(); num.pop();
-                    auto opr = op.top(); op.pop();
-                    if (opr == '*'){
-                        num.push(fst * sec);
-                    }else{
-                        num.push(fst / sec);
-                    }
-                }
-            }else if (s[i] != ' '){
-                if (s[i] == '*' || s[i] == '/') {
-                    op.push(s[i]);
-                    continue;
-                }
-                while (op.size()){
-                    auto t = op.top(); op.pop();
-                    auto sec = num.top(); num.pop();
-                    auto fst = num.top(); num.pop();
-                    if (t == '+') num.push(fst + sec);
-                    if (t == '-') num.push(fst - sec);
+                nums.push(cur);
+            }else{
+                while (op.size() && pr[op.top()] >= pr[s[i]]){
+                    eval();
                 }
                 op.push(s[i]);
             }
         }
         while (op.size()){
-            auto t = op.top(); op.pop();
-            auto sec = num.top(); num.pop();
-            auto fst = num.top(); num.pop();
-            if (t == '+') num.push(fst + sec);
-            else num.push(fst - sec);
-            cout << t << " ";
-            cout << fst << " " << sec << '\n';
+            eval();
+            // cout << op.top() << " ";
+            // op.pop();
         }
-        // puts("");
-        // while (num.size()){
-        //     int t = num.top(); num.pop();
-        //     cout << t << " ";
-        // }
-        return num.top();
+        return nums.top();
     }
+
+    void eval() {
+        auto o = op.top(); op.pop();
+        int b = nums.top(); nums.pop();
+        int a = nums.top(); nums.pop();
+        if (o == '+') nums.push(a+b);
+        if (o == '-') nums.push(a-b);
+        if (o == '*') nums.push(a*b);
+        if (o == '/') nums.push(a / b);
+    }
+
 };
