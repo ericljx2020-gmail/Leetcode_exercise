@@ -9,12 +9,12 @@ public:
         }
 
         queue<int> q;
-        unordered_map<int, bool> st;
+        // unordered_map<int, bool> st;
         int cnt = 0;
         for (int i = 0; i < n; i++){
             if (in[i] == 0) {
                 q.push(i);
-                st[i] = 1;
+                // st[i] = 1;
                 cnt++;
             }
         }
@@ -24,13 +24,9 @@ public:
 
             for (int i = 0; i < g[t].size(); i++){
                 in[g[t][i]]--;
-            }
-
-            for (int i = 0; i < n; i++){
-                if (!st[i] && in[i] == 0){
+                if (in[g[t][i]] == 0) {
+                    q.push(g[t][i]);
                     cnt++;
-                    q.push(i);
-                    st[i] = 1;
                 }
             }
         }
