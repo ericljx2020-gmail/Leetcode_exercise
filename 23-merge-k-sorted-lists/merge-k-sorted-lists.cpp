@@ -11,28 +11,27 @@
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        auto dummy = new ListNode(0);
-        auto p = dummy;
         unordered_map<int, vector<ListNode*>> hash;
-        priority_queue<int, vector<int>, greater<int>> heap;
-        for (auto node : lists) {
-            if (!node) continue;
-            heap.push(node -> val);
-            hash[node -> val].push_back(node);
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for (auto l : lists){
+            if(l) {
+                pq.push(l -> val);
+                hash[l -> val].push_back(l);
+            }
         }
-
-        while (heap.size()){
-            auto t = heap.top();
-            heap.pop();
-
-            auto q = hash[t][hash[t].size()-1];
+        ListNode* dummy = new ListNode(0);
+        auto p = dummy;
+        while (pq.size()){
+            auto t = pq.top();
+            pq.pop();
+            auto v = hash[t][hash[t].size()-1];     // the last linkedlist with head -> val == t;
             hash[t].pop_back();
-            p -> next = q;
+            p -> next = v;
             p = p -> next;
-            q = q -> next;
-            if (q) {
-                hash[q->val].push_back(q);
-                heap.push(q -> val);
+            v = v -> next;
+            if (v) {
+                hash[v -> val].push_back(v);
+                pq.push(v -> val);
             }
         }
         return dummy -> next;
