@@ -11,24 +11,24 @@
  */
 class Solution {
 public:
+    unordered_map<int, vector<int>> level;
     vector<int> rightSideView(TreeNode* root) {
-        if (!root) return {};
-        vector<int> res(200, -1);
+        if (!root ) return {};
         queue<pair<TreeNode*, int>> q;
         q.push({root, 0});
-        int h = 0;
-        while (q.size()) {
+        int d = 0;
+        while (q.size()){
             auto t = q.front();
             q.pop();
-            h = max(h, t.second);
-            if (res[t.second] == -1) res[t.second] = t.first -> val;
+            level[t.second].push_back(t.first -> val);
+            d = max(d, t.second);
             if (t.first -> right) q.push({t.first -> right, t.second+1});
-            if (t.first -> left) q.push({t.first -> left, t.second+1});
+            if (t.first -> left) q.push({t.first -> left, t.second + 1});
         }
-        vector<int> ans;
-        for (int i = 0; i <= h; i++){
-            ans.push_back(res[i]);
+        vector<int> res;
+        for (int i= 0; i <= d; i++){
+            res.push_back(level[i][0]);
         }
-        return ans;
+        return res;
     }
 };
