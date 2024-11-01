@@ -11,34 +11,27 @@
  */
 class Solution {
 public:
+    vector<vector<int>> res;
     unordered_map<int, vector<int>> hash;
-    int lft = INT_MAX;
-    int rht = INT_MIN;
+    int l = INT_MAX, r = INT_MIN;
 
     vector<vector<int>> verticalOrder(TreeNode* root) {
         if (!root) return {};
-        queue<pair<TreeNode*,int>> q;
+        queue<pair<TreeNode*, int>> q;
         q.push({root, 0});
 
-        while (q.size()){
+        while (q.size()) {
             auto t = q.front();
             q.pop();
-            auto p = t.first;
-            int l = t.second;
-            hash[l].push_back(p -> val);
-            lft = min(lft, l);
-            rht = max(rht, l);
-            if (p -> left) q.push({p -> left, l-1});
-            if (p -> right) q.push({p -> right, l+1});
-        }
+            hash[t.second].push_back(t.first -> val);
+            l = min(l, t.second);
+            r = max(r, t.second);
 
-        vector<vector<int>> res;
-        for (int i = lft; i <= rht; i++) {
-            vector<int> cur;
-            for (auto c : hash[i]){
-                cur.push_back(c);
-            }
-            res.push_back(cur);
+            if (t.first -> left) q.push({t.first -> left, t.second-1});
+            if (t.first -> right) q.push({t.first -> right, t.second + 1});
+        }
+        for (int i = l; i <= r; i++){
+            res.push_back(hash[i]);
         }
         return res;
     }
