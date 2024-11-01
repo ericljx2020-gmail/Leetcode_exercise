@@ -1,30 +1,39 @@
 class Solution {
 public:
-    bool canFinish(int n, vector<vector<int>>& edges) {
+    bool canFinish(int n, vector<vector<int>>& preq) {
+        vector<int> in(n, 0);
         vector<vector<int>> g(n);
-        vector<int> d(n);
-
-        for (auto &e : edges){
-            int a = e[0], b = e[1];
-            g[b].push_back(a);
-            d[a]++;
-        }   
-        int q[100005];
-        int tt = -1;
-        for (int i = 0; i < n; i++) {
-            if (d[i] == 0) q[++tt] = i;
+        for (auto p : preq){
+            in[p[0]]++;
+            g[p[1]].push_back(p[0]);
         }
 
-        int res = 0;
-        while (tt != -1) {
-            int t = q[tt--];
-            res++;
-            for (int i = 0; i < g[t].size(); i++){
-                int c = g[t][i];
-                d[c]--;
-                if (d[c] == 0) q[++tt] = c;
+        queue<int> q;
+        unordered_map<int, bool> st;
+        int cnt = 0;
+        for (int i = 0; i < n; i++){
+            if (in[i] == 0) {
+                q.push(i);
+                st[i] = 1;
+                cnt++;
             }
         }
-        return res == n;
+        while (q.size()){
+            auto t = q.front();
+            q.pop();
+
+            for (int i = 0; i < g[t].size(); i++){
+                in[g[t][i]]--;
+            }
+
+            for (int i = 0; i < n; i++){
+                if (!st[i] && in[i] == 0){
+                    cnt++;
+                    q.push(i);
+                    st[i] = 1;
+                }
+            }
+        }
+        return cnt == n;
     }
 };
