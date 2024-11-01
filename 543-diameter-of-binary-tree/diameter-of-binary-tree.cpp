@@ -15,19 +15,14 @@ public:
 
     int dfs(TreeNode* p) {
         if (!p) return 0;
-        int depth = 1;
-        int height = 1;
-        int left = dfs(p -> left);
-        int right = dfs(p -> right);
-        height += max(left, right);
-        depth += left;
-        depth += right;
-        res = max(depth, res);
-        return height;
+        int l = dfs(p -> left);
+        int r = dfs(p -> right);
+        res = max(res, l+r+1);
+        return max(l,r)+1;
     }
 
     int diameterOfBinaryTree(TreeNode* root) {
-        dfs(root);
+        res = max(res, dfs(root));
         return res-1;
     }
 };
