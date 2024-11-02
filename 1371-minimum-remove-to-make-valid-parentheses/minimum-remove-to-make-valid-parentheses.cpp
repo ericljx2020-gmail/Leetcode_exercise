@@ -1,32 +1,29 @@
 class Solution {
 public:
     string minRemoveToMakeValid(string s) {
-        stack<int> stk;
-        string res = "";
         int n = s.size();
-        unordered_map<int, bool> hash;
-        for (int i = 0; i < n; i++) {
-            if (s[i] == '('){
-                stk.push(i);
-            }else if (s[i] == ')'){
-                if (stk.size()){
+        stack<int> stk;
+        string s_copy = "";
+        unordered_map<int, bool> st;
+        for (int i = 0; i < n; i++){
+            if (s[i] <= 'z' && s[i] >= 'a') continue;
+            else if (s[i] == '(') stk.push(i);
+            else{
+                if (stk.empty()) st[i] = 1;             //不要
+                else{
                     stk.pop();
-                }else{
-                    hash[i] = 1;
                 }
             }
         }
         while (stk.size()){
-            auto t = stk.top();
+            int t = stk.top();
+            st[t] = 1;
             stk.pop();
-
-            hash[t] = 1;
         }
-
         for (int i = 0; i < n; i++){
-            if (hash[i]) continue;
-            res += s[i];
+            if (st[i]) continue;
+            s_copy += s[i];
         }
-        return res;
+        return s_copy;
     }
 };
