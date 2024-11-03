@@ -19,7 +19,7 @@ public:
     
     bool remove(int val) {
         if (!search(val)) return false;
-        v[hash[val]] = v[v.size()-1];
+        v[hash[val]] = v.back();
         v.pop_back();
         hash[v[hash[val]]] = hash[val];
         hash.erase(val);
