@@ -1,25 +1,15 @@
 class Solution {
 public:
-    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {
-        int n = firstList.size(), m = secondList.size();
-        int i = 0, j = 0;
+    vector<vector<int>> intervalIntersection(vector<vector<int>>& f, vector<vector<int>>& s) {
         vector<vector<int>> res;
-        while (i < n && j < m) {
-            auto a = firstList[i], b = secondList[j];
-            if (a[1] <= b[1]){
-                int maxl = max(a[0], b[0]);
-                if (maxl <= a[1]){
-                    //there is intersection
-                    res.push_back({maxl, a[1]});
-                }
-                i++;
-            }else{
-                int maxl = max(a[0], b[0]);
-                if (maxl <= b[1]){
-                    res.push_back({maxl, b[1]});
-                }
+        for (int i = 0, j = 0; i < f.size(); i++){
+            while (j < s.size() && s[j][0] <= f[i][1]){
+                int l = max(f[i][0], s[j][0]);
+                int r = min(f[i][1], s[j][1]);
+                if (l <= r) res.push_back({l,r});
                 j++;
             }
+            if (j > 0 )j--;
         }
         return res;
     }
