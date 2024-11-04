@@ -24,26 +24,40 @@ public:
 
 class Solution {
 public:
-    Node* first = NULL;
-    Node* last = NULL;
+
+    stack<Node*> stk;
+
     Node* treeToDoublyList(Node* root) {
         if (!root) return root;
-        dfs(root);
-        first -> left = last;
-        last -> right = first;
-        return first;
-    }
 
-    void dfs(Node* p){
-        if (!p) return;
-        dfs(p -> left);
-        if (last){
-            last -> right = p;
-            p -> left = last;
-        }else{
-            first = p;
+        auto it = root;
+        while (it){
+            stk.push(it);
+            it = it -> left;
         }
-        last = p;
-        dfs(p -> right);
+
+        auto head = new Node(0);
+        auto prev = head;
+        Node* current;
+
+        while (stk.size()){
+            current = stk.top();
+            stk.pop();
+
+            prev -> right = current;
+            current -> left = prev;
+            prev = current;
+
+            auto it = current -> right;
+            while (it){
+                stk.push(it);
+                it = it -> left;
+            }
+        }
+
+        head -> right -> left = current;
+        current -> right = head -> right;
+
+        return head -> right;
     }
 };
