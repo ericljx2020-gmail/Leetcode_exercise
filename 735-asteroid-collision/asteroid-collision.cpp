@@ -7,7 +7,7 @@ public:
             else{
                 while (res.size() && res.back() > 0 && res.back() < -c) res.pop_back();
                 if (res.size() == 0 || res.back() < 0) res.push_back(c);
-                else if (res.back() == -c) res.pop_back(); 
+                else if (res.back() == -c) res.pop_back();
             }
         }
         return res;
