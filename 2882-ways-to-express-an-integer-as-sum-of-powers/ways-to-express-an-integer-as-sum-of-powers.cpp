@@ -1,28 +1,22 @@
 class Solution {
 public:
-
-    const int MOD = 1e9+7;
-
+    int MOD = 1e9+7;
     int numberOfWays(int n, int x) {
-        vector<int> v;
-        for (int i = 1; i <= n; i++){
-            int c = pow(i, x);
-            if (c <= n) v.push_back(c);
-            else break;
+        int top = 0;
+        while (pow(top+1, x) <= n) {
+            top ++;
         }
-        vector<long long> f(n+1, 0);
-        f[0] = 1;
-        for (int i = 0; i < v.size(); i++){
-            for (int j = n; j >= v[i]; j--){
-                f[j] += f[j-v[i]] % MOD;
+        // cout << top;
+        vector<int> f(n+1, 0);
+        f[0] = 1;           // 0 way to form 0
+        for(int j = 1; j <= top; j++){
+            for (int i = n; i >= 1; i--){
+                int d = pow(j,x);
+                if (i < d) break; 
+                f[i] = (f[i] + f[i-d]) % MOD;
+                // cout << f[i] << " ";
             }
         }
-        return (int) (f[n] % MOD);
-    }
-
-    int pow(int x, int n){
-        int res = 1;
-        for (int i = 0; i < n; i++) res *= x;
-        return res;
+        return f[n];
     }
 };
