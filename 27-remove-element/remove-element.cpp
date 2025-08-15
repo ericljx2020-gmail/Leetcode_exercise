@@ -10,9 +10,8 @@ public:
         if (nums[l] == val) {
             swap(nums[l], nums[r]);
             // DO NOT l++ here; need to re-check the new nums[l]
-        } else {
-            l++;            // keep good element
         }
+        l++;
     }
     return l;               // first l elements are non-val
 }
