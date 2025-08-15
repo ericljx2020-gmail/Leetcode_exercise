@@ -1,15 +1,20 @@
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-        vector<int> ans;
-        int k = 0;
-        for (int i = 0; i < nums.size(); i++){
-            if (nums[i] != val){
-                ans.push_back(nums[i]);
-                k++;
-            }
+    int l = 0, r = nums.size() - 1;
+    while (l <= r) {
+        // Move r left past any vals
+        while (l <= r && nums[r] == val) r--;
+        if (l > r) break;
+
+        if (nums[l] == val) {
+            swap(nums[l], nums[r]);
+            // DO NOT l++ here; need to re-check the new nums[l]
+        } else {
+            l++;            // keep good element
         }
-        nums = ans;
-        return k;
     }
+    return l;               // first l elements are non-val
+}
+
 };
