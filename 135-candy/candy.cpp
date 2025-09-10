@@ -22,6 +22,7 @@ public:
                 res += (dec-1);
                 if (dec > top){
                     res += 1;
+                    top ++;
                 }
             }
         }
