@@ -1,30 +1,30 @@
 class Solution {
 public:
     int candy(vector<int>& a) {
-        int n = a.size();
-        int inc = 1, dec = 1, top = 1;
+        int inc = 1, top = 1, dec = 1;
         int res = 1;
+        int n = a.size();
         for (int i = 1; i < n; i++){
-            if (a[i] > a[i-1]) {
-                //  uphill
+            if (a[i] > a[i-1]){
+                // uphill
                 inc++;
-                dec = 1;
                 res += inc;
+                dec = 1;
                 top = inc;
-            }else if (a[i] == a[i-1]) {
+            }else if (a[i] == a[i-1]){
+                top = 1;
                 inc = 1;
                 dec = 1;
-                top = 1;
-                res += inc;
+                res += 1;
             }else{
                 inc = 1;
-                dec++;
+                dec ++;
                 res += (dec-1);
-                if (dec > top) res ++;
+                if (dec > top){
+                    res += 1;
+                }
             }
         }
-
         return res;
-
     }
 };
