@@ -5,19 +5,18 @@ public:
         return a[0] < b[0];
     }
 
-    vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        if (intervals.size() == 0) return {};
-        sort(intervals.begin(), intervals.end(), cmp);
-        int n = intervals.size();
+    vector<vector<int>> merge(vector<vector<int>>& a) {
+        int n = a.size();
+        sort(a.begin(), a.end(), cmp);
+        int s = a[0][0], t = a[0][1];
         vector<vector<int>> res;
-        int s = intervals[0][0], t = intervals[0][1];
         for (int i = 1; i < n; i++){
-            if (intervals[i][0] <= t){
-                t = max(t, intervals[i][1]);
+            if (a[i][0] <= t){
+                t = max(t, a[i][1]);
             }else{
                 res.push_back({s,t});
-                s = intervals[i][0];
-                t = intervals[i][1];
+                s = a[i][0];
+                t = a[i][1];   
             }
         }
         res.push_back({s,t});
