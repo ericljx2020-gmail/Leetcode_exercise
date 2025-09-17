@@ -1,44 +1,41 @@
 class LRUCache {
 public:
-
     struct Node{
         int key, val;
-        Node* left, *right;
-        Node(int _key, int _val): key(_key), val(_val), left(NULL), right(NULL) {}
+        Node *left, *right;
+        Node(int key, int value) : key(key), val(value){};
     }*L, *R;
+    int capacity;
     unordered_map<int, Node*> hash;
-    int n;
 
-    LRUCache(int capacity) {
-        n = capacity;
-        L = new Node(-1, -1);
-        R = new Node(-1, -1);
-        L -> right = R;
-        R -> left = L;
+    LRUCache(int _capacity) {
+        capacity = _capacity;
+        L = new Node(-1,-1);
+        R = new Node(-1,-1);
+        L->right = R;
+        R->left = L;
     }
 
-    void remove(Node* p) {
-        p -> left -> right = p->right;
-        p ->right -> left = p -> left;
-    }
-
-    void insert(Node*p) {
+    void insert(Node* p){
         p -> right = L -> right;
-        p -> left = L;
         L -> right -> left = p;
+        p -> left = L;
         L -> right = p;
+    }
+
+    void remove(Node* p){
+        p -> left -> right = p -> right;
+        p -> right -> left = p -> left;
     }
     
     int get(int key) {
         if (hash.count(key)){
-            //key is in the linkedlist
             auto p = hash[key];
             remove(p);
             insert(p);
             return p -> val;
-        }else{
-            return -1;
         }
+        return -1;
     }
     
     void put(int key, int value) {
@@ -47,16 +44,16 @@ public:
             p -> val = value;
             remove(p);
             insert(p);
-        }else{
-            if (hash.size() == n){
-                auto p = R -> left;
-                hash.erase(p -> key);
-                remove(p);
-                delete p;
-            }
-            auto p = new Node(key, value);
             hash[key] = p;
+        }else{
+            if (hash.size() == capacity){
+                auto r = R->left;
+                hash.erase(r->key);
+                remove(r);
+            }
+            Node* p = new Node(key, value);
             insert(p);
+            hash[key] = p;
         }
     }
 };
