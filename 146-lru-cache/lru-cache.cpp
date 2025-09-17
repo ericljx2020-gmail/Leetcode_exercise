@@ -1,19 +1,19 @@
 class LRUCache {
 public:
+
     struct Node{
         int key, val;
-        Node *left, *right;
-        Node(int key, int value) : key(key), val(value){};
+        Node* left, *right;
+        Node(int _key, int _val) : key(_key), val(_val) {};
     }*L, *R;
     int capacity;
     unordered_map<int, Node*> hash;
-
     LRUCache(int _capacity) {
-        capacity = _capacity;
         L = new Node(-1,-1);
         R = new Node(-1,-1);
-        L->right = R;
-        R->left = L;
+        L -> right = R;
+        R -> left = L;
+        capacity = _capacity;
     }
 
     void insert(Node* p){
@@ -34,8 +34,9 @@ public:
             remove(p);
             insert(p);
             return p -> val;
+        }else{
+            return -1;
         }
-        return -1;
     }
     
     void put(int key, int value) {
@@ -44,11 +45,10 @@ public:
             p -> val = value;
             remove(p);
             insert(p);
-            hash[key] = p;
         }else{
             if (hash.size() == capacity){
-                auto r = R->left;
-                hash.erase(r->key);
+                auto r = R -> left;
+                hash.erase(r -> key);
                 remove(r);
             }
             Node* p = new Node(key, value);
