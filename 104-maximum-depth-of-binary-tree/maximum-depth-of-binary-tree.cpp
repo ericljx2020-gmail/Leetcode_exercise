@@ -11,20 +11,17 @@
  */
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        if (!root) return 0;
-        TreeNode* q[10005];
-        int tt = -1, hh = 0;
-        root -> val = 1;
-        q[++tt] = root;
-        int depth = 0;
-        while (hh <= tt) {
-            auto cur = q[hh++];
-            if (cur -> left) q[++tt] = cur -> left, cur -> left -> val = cur -> val + 1;
-            if (cur -> right) q[++tt] = cur -> right, cur -> right -> val = cur -> val +1;
-            depth = max(depth, cur -> val);
-        }
-        return depth;
+    int res = 0;
+
+    void BFS(TreeNode* p, int d){
+        if (!p) return ;
+        res = max(res, d);
+        if (p -> left) BFS(p -> left, d+1);
+        if (p -> right) BFS(p -> right, d+1);
     }
-    
+
+    int maxDepth(TreeNode* root) {
+        BFS(root, 1);
+        return res;    
+    }
 };
