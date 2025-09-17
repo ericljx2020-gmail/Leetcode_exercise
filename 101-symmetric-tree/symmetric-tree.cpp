@@ -11,35 +11,27 @@
  */
 class Solution {
 public:
-    vector<int> left, right;
-    void inorderL(TreeNode* p) {
-        if (!p) {
-            left.push_back(-1);
-            return;
-        }
-        left.push_back(p -> val);
-        inorderL(p -> left);
-        inorderL(p -> right);
+
+    TreeNode* inverse(TreeNode* p){
+        if (!p) return NULL;
+        inverse(p -> left);
+        inverse(p -> right);
+        swap(p -> left, p -> right);
+        return p;
     }
 
-    void inorderR(TreeNode* p) {
-        if (!p) {
-            right.push_back(-1);
-            return;
-        }
-        right.push_back(p -> val);
-        inorderR(p -> right);
-        inorderR(p -> left);
+    bool isSame(TreeNode* p, TreeNode* q){
+        if (!p && !q) return true;
+        if(!p || !q || p->val != q->val) return false;
+        return isSame(p -> left, q->left) && isSame(p->right, q->right);
     }
+
     bool isSymmetric(TreeNode* root) {
         if (!root) return true;
-        inorderL(root -> left);
-        inorderR(root -> right);
-        if (left.size() != right.size()) return false;
-        for (int i = 0; i < left.size(); i++){
-            if (left[i] != right[i]) return false;
-            // cout << left[i] << " " << right[i] << "\n";
-        }
-        return true;
+        if (!root -> right && !root -> left) return true;
+        if (!root -> right || !root -> left || root -> right -> val != root -> left -> val) return false;
+        auto L = inverse(root -> left);
+        auto R = root -> right;
+        return isSame(L,R);
     }
 };
