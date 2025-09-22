@@ -1,29 +1,32 @@
 class Solution {
 public:
     vector<int> findSubstring(string s, vector<string>& words) {
-        int n = s.size(), m = words.size(), w = words[0].size();
-        vector<int> res;
-        unordered_map<string, int> tot;
-        for (auto word: words){
-            tot[word] ++;
+        int n = s.size(), m = words.size();
+        if (n == 0) return {};
+        int w = words[0].size();
+        unordered_map<string, int> hash;
+        for (auto w : words) {
+            hash[w]++;
         }
 
+        vector<int> res;
+
         for (int i = 0; i < w; i++){
-            unordered_map<string, int>wd;
+            unordered_map<string, int> wd;
             int cnt = 0;
-            for (int j = i; j+w <= n; j+=w){
-                if (j >= i+m*w){
-                    auto word = s.substr(j-m*w,w);
-                    wd[word] --;
-                    if (wd[word] < tot[word]) cnt--;
+            for (int j = i; j + w - 1 < n; j+=w){
+                // cout << j << " ";
+                if (j - i >= m * w){
+                    string p = s.substr(j-m*w, w);
+                    wd[p]--;
+                    if (wd[p] < hash[p]) cnt--;
                 }
-                auto word = s.substr(j,w);
-                wd[word]++;
-                if (wd[word] <= tot[word]){
-                    cnt++;
-                }
-                if (cnt == m) res.push_back(j-(m-1)*w);
+                string cur = s.substr(j, w);
+                wd[cur]++;
+                if (wd[cur] <= hash[cur]) cnt++;
+                if (cnt == words.size()) res.push_back(j-(m-1)*w);
             }
+            // cout << endl;
         }
         return res;
     }
